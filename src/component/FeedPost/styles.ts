@@ -40,17 +40,9 @@ export default StyleSheet.create({
       color: colors.black,
       lineHeight: 18
     },
-    commentText: {
-      color: colors.black,
-      flex: 1,
-      lineHeight: 18
-    },
     bold: {
       fontWeight: fonts.weight.bold,
     },
-    comment: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
+    
   });
   
