@@ -1,20 +1,34 @@
-import {Image, Text, View} from 'react-native';
+import {useState} from 'react';
+import {Image, Pressable, Text, View} from 'react-native';
 import colors from '../../themes/colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Comments from '../Comments/Comment';
+import DoublePressable from '../DoublePressable';
 
 import styles from './styles';
 
-import { IPost} from '../../types/models';
+import {IPost} from '../../types/models';
 
 interface FeedPost {
-  post: IPost
+  post: IPost;
 }
 
 export default function FeedPost({post}: FeedPost) {
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleDescriptionExpanded = () => {
+    setIsDescriptionExpanded(v => !v);
+  };
+
+  const toogleLike = () => {
+    setIsLiked(v => !v);
+  };
+
+
   return (
     <View style={styles.post}>
       {/** Header */}
@@ -34,22 +48,27 @@ export default function FeedPost({post}: FeedPost) {
       </View>
 
       {/** Content */}
-      <Image
-        source={{
-          uri: post.image,
-        }}
-        style={styles.image}
-      />
+      <DoublePressable onDoublePressable={toogleLike}>
+        <Image
+          source={{
+            uri: post.image,
+          }}
+          style={styles.image}
+        />
+      </DoublePressable>
 
       {/** Footer */}
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
-          <AntDesign
-            name={'hearto'}
-            size={24}
-            style={styles.icon}
-            color={colors.black}
-          />
+          <Pressable onPress={toogleLike}>
+            <AntDesign
+              name={isLiked ? 'heart' : 'hearto'}
+              size={24}
+              style={styles.icon}
+              color={isLiked ? colors.accent : colors.black}
+            />
+          </Pressable>
+
           <Ionicons
             name="chatbubble-outline"
             size={24}
@@ -62,6 +81,7 @@ export default function FeedPost({post}: FeedPost) {
             style={styles.icon}
             color={colors.black}
           />
+          
           <Feather
             name="bookmark"
             size={24}
@@ -77,15 +97,19 @@ export default function FeedPost({post}: FeedPost) {
         </Text>
 
         {/**Post description */}
-        <Text style={styles.text}>
+        <Text style={styles.text} numberOfLines={isDescriptionExpanded ? 0 : 3}>
           <Text style={styles.bold}>{post.user.username}</Text>{' '}
           {post.description}
+        </Text>
+
+        <Text onPress={toggleDescriptionExpanded}>
+          {isDescriptionExpanded ? 'less' : 'more'}
         </Text>
 
         {/**Comments */}
         <Text>View all {post.nofComments} comments</Text>
         {post.comments.map((comment: any) => (
-          <Comments key={comment.id} comment= {comment} />
+          <Comments key={comment.id} comment={comment} />
         ))}
 
         <Text>{post.createdAt}</Text>
