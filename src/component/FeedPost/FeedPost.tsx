@@ -12,12 +12,14 @@ import styles from './styles';
 
 import {IPost} from '../../types/models';
 import Carousel from '../Carousel/Carousel';
+import VidePlayer from '../VideoPlayer/VideoPlayer';
 
 interface FeedPost {
-  post: IPost;
+  post: IPost,
+  isVisible: boolean
 }
 
-export default function FeedPost({post}: FeedPost) {
+export default function FeedPost({post, isVisible}: FeedPost) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -44,6 +46,12 @@ export default function FeedPost({post}: FeedPost) {
     );
   }else if (post.images){
     content = (<Carousel  images={post.images} onDoublePress={toggleLike} />);
+  }else if(post.video){
+    content = (
+      <DoublePressable onDoublePressable={toggleLike}> 
+          <VidePlayer uri={post.video} paused={!isVisible} />
+      </DoublePressable>
+    );
   }
 
   return (
