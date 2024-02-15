@@ -11,6 +11,7 @@ import DoublePressable from '../DoublePressable';
 import styles from './styles';
 
 import {IPost} from '../../types/models';
+import Carousel from '../Carousel/Carousel';
 
 interface FeedPost {
   post: IPost;
@@ -24,10 +25,26 @@ export default function FeedPost({post}: FeedPost) {
     setIsDescriptionExpanded(v => !v);
   };
 
-  const toogleLike = () => {
+  const toggleLike = () => {
     setIsLiked(v => !v);
   };
 
+  let content = null;
+
+  if (post.image) {
+    content = (
+      <DoublePressable onDoublePressable={toggleLike}> 
+      <Image
+        source={{
+          uri: post.image,
+        }}
+        style={styles.image}
+      />
+      </DoublePressable>
+    );
+  }else if (post.images){
+    content = (<Carousel  images={post.images} onDoublePress={toggleLike} />);
+  }
 
   return (
     <View style={styles.post}>
@@ -48,19 +65,12 @@ export default function FeedPost({post}: FeedPost) {
       </View>
 
       {/** Content */}
-      <DoublePressable onDoublePressable={toogleLike}>
-        <Image
-          source={{
-            uri: post.image,
-          }}
-          style={styles.image}
-        />
-      </DoublePressable>
+          <View>{content}</View>
 
       {/** Footer */}
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
-          <Pressable onPress={toogleLike}>
+          <Pressable onPress={toggleLike}>
             <AntDesign
               name={isLiked ? 'heart' : 'hearto'}
               size={24}
@@ -81,7 +91,7 @@ export default function FeedPost({post}: FeedPost) {
             style={styles.icon}
             color={colors.black}
           />
-          
+
           <Feather
             name="bookmark"
             size={24}
