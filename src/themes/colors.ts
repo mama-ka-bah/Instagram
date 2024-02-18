@@ -3,9 +3,12 @@ const colors = {
 
     accent: '#ED4956',
 
+    border: '#dcdcdc',
+
     white: '#fff',
     black: '#000',
-    grey: '#cccccc'
+    grey: '#666666',
+    lightgrew:'#cccccc',
 };
 
 export default colors;

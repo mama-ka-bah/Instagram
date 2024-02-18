@@ -25,15 +25,6 @@ export default function Carousel({images, onDoublePress = () => {}}: ICarousel) 
     itemVisiblePercentThreshold: 51,
   };
 
-  /*
-  const onViewableItemsChanged = ({viewableItems}:any) => {
-    if (viewableItems.length > 0) {
-      console.log("index: ", viewableItems[0].index);
-      setActiveImageIndex(viewableItems[0].index);
-    }
-  };
-  */
-
   const onViewableItemsChanged = useRef(
     ({viewableItems}: {viewableItems: Array<ViewToken>}) => {
       if (viewableItems.length > 0) {
