@@ -1,11 +1,11 @@
 import {FlatList, StyleSheet, View} from 'react-native';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
-import CommentsScreen from './src/screens/HomeScreen/CommentsScreen/CommentsScreen';
+import CommentsScreen from './src/screens/CommentsScreen/CommentsScreen';
 
 export default function App() {
   return (
     <View style={styles.app}>
-    {/** <HomeScreen /> */}
+    {/** <HomeScreen />*/}
     <CommentsScreen />
     </View>
   );
